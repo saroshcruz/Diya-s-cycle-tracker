@@ -1,0 +1,61 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffd6e8, #e6ddff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.poop-btn {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: none;
+  font-size: 48px;
+  cursor: pointer;
+  background: white;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.poop-btn:active {
+  transform: scale(0.92);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.celebration {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #5b2d8b;
+  animation: pop 0.4s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
