@@ -47,3 +47,6 @@ poopBtn.addEventListener("click", async () => {
   celebration.classList.remove("hidden");
   setTimeout(() => celebration.classList.add("hidden"), 1500);
 });
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js");
+}
