@@ -3,33 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Diya’s Poop Log Button</title>
+  <title>Diya’s Poop Log 💩</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <link rel="manifest" href="/manifest.json">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Poop Log 💩">
-
-<link rel="apple-touch-icon" href="/icon-192.png">
-
-
-  <!-- Supabase (browser global) -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Poop Log 💩">
+  <link rel="apple-touch-icon" href="/icon-192.png">
 
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <div class="container">
     <h1>Diya’s Poop Log Button</h1>
 
+    <p id="counter">Poops today: 0 💩</p>
+    <p id="streak">🔥 Streak: 0 days</p>
+
     <button id="poopBtn" class="poop-btn">💩</button>
 
-    <p id="celebration" class="celebration hidden">
-      🎉 Yay you go girl 🎉
-    </p>
+    <p id="celebration" class="hidden"></p>
+
+    <canvas id="confetti"></canvas>
   </div>
 
-  <!-- Script MUST be last -->
   <script src="script.js"></script>
 </body>
 </html>
