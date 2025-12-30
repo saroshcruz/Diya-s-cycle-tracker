@@ -20,7 +20,19 @@ h1 {
   margin-bottom: 10px;
 }
 
+/* ===== Poop Button + Cooldown ===== */
+
+.poop-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 20px auto;
+}
+
 .poop-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
   width: 130px;
   height: 130px;
   font-size: 52px;
@@ -29,11 +41,37 @@ h1 {
   background: white;
   cursor: pointer;
   box-shadow: 0 18px 35px rgba(0,0,0,0.15);
+  z-index: 2;
+  transition: opacity 0.2s ease, transform 0.15s ease;
 }
 
 .poop-btn:active {
   transform: scale(0.92);
 }
+
+.poop-btn.cooldown {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Cooldown ring */
+.cooldown-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+
+.cooldown-ring circle {
+  fill: none;
+  stroke: #ff8fab;
+  stroke-width: 6;
+  stroke-dasharray: 430;
+  stroke-dashoffset: 430;
+  transition: stroke-dashoffset linear;
+}
+
+/* ===== Misc ===== */
 
 .hidden {
   display: none;

@@ -7,6 +7,7 @@ const supabaseClient = supabase.createClient(
 );
 
 const poopBtn = document.getElementById("poopBtn");
+const ring = document.querySelector(".cooldown-ring circle");
 const todayCountEl = document.getElementById("todayCount");
 const streakEl = document.getElementById("streak");
 const celebration = document.getElementById("celebration");
@@ -17,6 +18,9 @@ const shareBtn = document.getElementById("shareBtn");
 
 let undoTimeout = null;
 let lastCount = null;
+let coolingDown = false;
+
+const COOLDOWN_MS = 2000;
 
 const affirmations = [
   "Yay you go girl 💛",
@@ -26,24 +30,47 @@ const affirmations = [
   "Iconic behavior 💅"
 ];
 
+function formatDate(d) {
+  return d.toISOString().split("T")[0];
+}
+
+function calculateStreak(data) {
+  const map = new Map();
+  data.forEach(row => map.set(row.date, row.count));
+
+  let streak = 0;
+  let day = new Date();
+
+  while (true) {
+    const key = formatDate(day);
+    if (map.has(key) && map.get(key) > 0) {
+      streak++;
+      day.setDate(day.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
 async function loadData() {
-  const today = new Date().toISOString().split("T")[0];
+  const today = formatDate(new Date());
 
   const { data } = await supabaseClient
     .from("poops")
     .select("*")
     .order("date", { ascending: false })
-    .limit(31);
+    .limit(60);
 
   let todayCount = 0;
-  let streak = 0;
   let total = 0;
 
-  data?.forEach((row, i) => {
+  data?.forEach(row => {
     if (row.date === today) todayCount = row.count;
-    if (i === streak && row.count > 0) streak++;
     total += row.count;
   });
+
+  const streak = calculateStreak(data || []);
 
   todayCountEl.textContent = `Poops today: ${todayCount} 💩`;
   streakEl.textContent = `🔥 Streak: ${streak} days`;
@@ -51,7 +78,7 @@ async function loadData() {
   insightsEl.innerHTML = `
     <strong>Insights</strong><br>
     Avg/day: ${(total / (data?.length || 1)).toFixed(1)}<br>
-    Best streak: ${streak} days
+    Current streak: ${streak} days
   `;
 
   drawCalendar(data || []);
@@ -61,10 +88,16 @@ async function loadData() {
 function drawCalendar(data) {
   calendarEl.innerHTML = "";
   const now = new Date();
-  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const daysInMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0
+  ).getDate();
 
   for (let d = 1; d <= daysInMonth; d++) {
-    const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const dateStr = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
     const found = data.find(r => r.date === dateStr);
     calendarEl.innerHTML += `<div>${found ? "💩" : "·"}</div>`;
   }
@@ -73,7 +106,7 @@ function drawCalendar(data) {
 let chart;
 function drawChart(data) {
   const ctx = document.getElementById("weeklyChart");
-  const last7 = data.slice(0,7).reverse();
+  const last7 = data.slice(0, 7).reverse();
 
   if (chart) chart.destroy();
 
@@ -81,11 +114,13 @@ function drawChart(data) {
     type: "bar",
     data: {
       labels: last7.map(r => r.date.slice(5)),
-      datasets: [{
-        data: last7.map(r => r.count),
-        backgroundColor: "rgba(255,143,171,0.7)",
-        borderRadius: 8
-      }]
+      datasets: [
+        {
+          data: last7.map(r => r.count),
+          backgroundColor: "rgba(255,143,171,0.7)",
+          borderRadius: 8
+        }
+      ]
     },
     options: {
       plugins: { legend: { display: false } },
@@ -97,9 +132,17 @@ function drawChart(data) {
 }
 
 poopBtn.addEventListener("click", async () => {
+  if (coolingDown) return;
+
+  coolingDown = true;
+  poopBtn.classList.add("cooldown");
+
   if (navigator.vibrate) navigator.vibrate(50);
 
-  const today = new Date().toISOString().split("T")[0];
+  ring.style.transition = `stroke-dashoffset ${COOLDOWN_MS}ms linear`;
+  ring.style.strokeDashoffset = "0";
+
+  const today = formatDate(new Date());
 
   const { data } = await supabaseClient
     .from("poops")
@@ -114,7 +157,8 @@ poopBtn.addEventListener("click", async () => {
     .from("poops")
     .upsert({ date: today, count: newCount }, { onConflict: "date" });
 
-  celebration.textContent = affirmations[Math.floor(Math.random() * affirmations.length)];
+  celebration.textContent =
+    affirmations[Math.floor(Math.random() * affirmations.length)];
   celebration.classList.remove("hidden");
 
   undoBtn.classList.remove("hidden");
@@ -122,10 +166,17 @@ poopBtn.addEventListener("click", async () => {
   undoTimeout = setTimeout(() => undoBtn.classList.add("hidden"), 5000);
 
   loadData();
+
+  setTimeout(() => {
+    coolingDown = false;
+    poopBtn.classList.remove("cooldown");
+    ring.style.transition = "none";
+    ring.style.strokeDashoffset = "430";
+  }, COOLDOWN_MS);
 });
 
 undoBtn.addEventListener("click", async () => {
-  const today = new Date().toISOString().split("T")[0];
+  const today = formatDate(new Date());
 
   await supabaseClient
     .from("poops")

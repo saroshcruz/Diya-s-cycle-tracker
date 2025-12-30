@@ -20,7 +20,14 @@
     <p id="todayCount">Poops today: 0 💩</p>
     <p id="streak">🔥 Streak: 0 days</p>
 
-    <button id="poopBtn" class="poop-btn">💩</button>
+    <!-- Button with cooldown ring -->
+    <div class="poop-wrapper">
+      <svg class="cooldown-ring" width="150" height="150">
+        <circle cx="75" cy="75" r="68" />
+      </svg>
+
+      <button id="poopBtn" class="poop-btn">💩</button>
+    </div>
 
     <p id="celebration" class="hidden"></p>
     <p id="undo" class="hidden">⏪ Undo</p>
