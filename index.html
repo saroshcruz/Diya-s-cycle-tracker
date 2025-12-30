@@ -2,31 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Diya’s Poop Log 💩</title>
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <link rel="manifest" href="/manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Poop Log 💩">
-  <link rel="apple-touch-icon" href="/icon-192.png">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <div class="container">
     <h1>Diya’s Poop Log Button</h1>
 
-    <p id="counter">Poops today: 0 💩</p>
+    <p id="todayCount">Poops today: 0 💩</p>
     <p id="streak">🔥 Streak: 0 days</p>
 
     <button id="poopBtn" class="poop-btn">💩</button>
 
     <p id="celebration" class="hidden"></p>
+    <p id="undo" class="hidden">⏪ Undo</p>
 
-    <canvas id="confetti"></canvas>
+    <!-- Insights -->
+    <div class="card" id="insights"></div>
+
+    <!-- Weekly Chart -->
+    <div class="card">
+      <h3>Weekly Poop Chart</h3>
+      <canvas id="weeklyChart"></canvas>
+    </div>
+
+    <!-- Calendar -->
+    <div class="card">
+      <h3>This Month</h3>
+      <div id="calendar"></div>
+    </div>
+
+    <button id="shareBtn" class="share-btn">📤 Share Today</button>
   </div>
 
   <script src="script.js"></script>

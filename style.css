@@ -1,57 +1,82 @@
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(135deg, #ffd6e8, #e6ddff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .container {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
   text-align: center;
-  position: relative;
 }
 
 h1 {
   margin-bottom: 10px;
 }
 
-#counter,
-#streak {
-  font-size: 1rem;
-  margin: 6px 0;
-  color: #333;
-}
-
 .poop-btn {
-  width: 140px;
-  height: 140px;
-  font-size: 4rem;
+  width: 130px;
+  height: 130px;
+  font-size: 52px;
   border-radius: 50%;
   border: none;
   background: white;
   cursor: pointer;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.15);
 }
 
-#celebration {
-  margin-top: 16px;
-  font-size: 1.1rem;
-  color: #5b2d8b;
+.poop-btn:active {
+  transform: scale(0.92);
 }
 
 .hidden {
   display: none;
 }
 
-#confetti {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+#celebration {
+  margin-top: 10px;
+  color: #6b2dbd;
+}
+
+#undo {
+  margin-top: 6px;
+  color: #ff4d6d;
+  cursor: pointer;
+}
+
+.card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 18px;
+  padding: 16px;
+  margin-top: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  font-size: 18px;
+}
+
+#calendar div {
+  padding: 6px 0;
+}
+
+.share-btn {
+  margin-top: 20px;
+  padding: 12px;
+  width: 100%;
+  border-radius: 14px;
+  border: none;
+  background: #ff8fab;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
