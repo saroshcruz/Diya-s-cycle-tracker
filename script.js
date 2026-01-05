@@ -75,10 +75,18 @@ async function loadData() {
   todayCountEl.textContent = `Poops today: ${todayCount} 💩`;
   streakEl.textContent = `🔥 Streak: ${streak} days`;
 
-  insightsEl.innerHTML = `
-    <strong>Insights</strong><br>
-    Avg/day: ${(total / (data?.length || 1)).toFixed(1)}<br>
-    Current streak: ${streak} days
+insightsEl.innerHTML = `
+  <strong>Insights</strong>
+  <table class="insights-table">
+    <tr>
+      <td>Average per day</td>
+      <td>${(total / (data?.length || 1)).toFixed(1)}</td>
+    </tr>
+    <tr>
+      <td>Current streak</td>
+      <td>${streak} days</td>
+    </tr>
+  </table>
   `;
 
   drawCalendar(data || []);
