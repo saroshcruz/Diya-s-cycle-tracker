@@ -181,3 +181,37 @@ p {
 #shareBtn {
   display: none;
 }
+/* ===== Sticky Note ===== */
+.sticky-note {
+  margin: 0 auto 14px;
+  width: fit-content;
+  background: #fff6c9;
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+  animation: floatNote 4s ease-in-out infinite;
+}
+
+.sticky-title {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8a7a3a;
+  margin-bottom: 2px;
+}
+
+.sticky-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1c1c1e;
+}
+
+/* subtle floating motion */
+@keyframes floatNote {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
